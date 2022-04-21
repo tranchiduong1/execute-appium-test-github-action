@@ -1,0 +1,87 @@
+name: 'Kobiton - Execute Appium Test'
+author: 'Kobiton'
+description: 'Github action to execute an Appium script on a Kobiton real device'
+inputs:
+  kobi_username:
+    description: The user in Kobiton
+    required: true
+  kobi_api_key:
+    description: Specific key to access Kobiton API
+    required: true
+  executor_url:
+    description: Kobiton Automation Test Executor URL to perform the test, please contact our Support Team to get this
+    required: true
+  executor_username:
+    description: Kobiton Automation Test Executor username, please contact our Support Team to get this
+    required: true
+  executor_password:
+    description: Kobiton Automation Test Executor password, please contact our Support Team to get this
+    required: true
+  git_repo_url:
+    description: Link to your Git repository
+    required: true
+  git_repo_branch:
+    description: The branch you want to execute automation test with
+    required: true
+  git_repo_ssh_key:
+    description: It is used when your Git repository is private
+    required: false
+  app_id:
+    description: App ID or App URL to use in test script, for example 'kobiton-store:123458'
+    required: false
+  use_custom_device:
+    description: Check if you want to execute one or some test cases with a specific Kobiton Cloud Device. If you already set your device information in your test script, leave this field unchecked
+    required: false
+    default: 'false'
+  device_name:
+    description: Kobiton Device Name
+    required: false
+  device_platform_version:
+    description: Kobiton Device platform version
+    required: false
+  device_platform:
+    description: Kobiton Device platform
+    required: false
+  root_directory:
+    description: Input the root directory of your project
+    required: true
+    default: '/'
+  command:
+    description: Command lines to install dependencies and execute your automation test script. These commands will run from the root directory of your project (i.e 'mvn test')
+    required: true
+  wait_for_execution:
+    description: Check if you want to release the pipeline to wait until your automation testing is completed or failed, then print out the console log and test result
+    required: true
+    default: 'true'
+  log_type:
+    description: Log type to be showed. Choose Combined to show logs in chronological order (default), or specify a type of log ('output', 'error')
+    required: false
+    default: 'combined'
+runs:
+  using: 'composite'
+  steps:
+    - run: |
+        chmod u+x ${{ github.action_path }}/test.sh
+        ${{ github.action_path }}/test.sh
+      shell: bash
+      env:
+        KOBI_USERNAME: ${{ inputs.kobi_username }}
+        KOBI_API_KEY: ${{ inputs.kobi_api_key }}
+        EXECUTOR_URL: ${{ inputs.executor_url }}
+        EXECUTOR_USERNAME: ${{ inputs.executor_username }}
+        EXECUTOR_PASSWORD: ${{ inputs.executor_password }}
+        GIT_REPO_URL: ${{ inputs.git_repo_url }}
+        GIT_REPO_BRANCH: ${{ inputs.git_repo_branch }}
+        GIT_REPO_SSH_KEY: ${{ inputs.git_repo_ssh_key }}
+        APP_ID: ${{ inputs.app_id }}
+        USE_CUSTOM_DEVICE: ${{ inputs.use_custom_device }}
+        DEVICE_NAME: ${{ inputs.device_name }}
+        DEVICE_PLATFORM_VERSION: ${{ inputs.device_platform_version }}
+        DEVICE_PLATFORM: ${{ inputs.device_platform }}
+        ROOT_DIRECTORY: ${{ inputs.root_directory }}
+        COMMAND: ${{ inputs.command }}
+        WAIT_FOR_EXECUTION: ${{ inputs.wait_for_execution }}
+        LOG_TYPE: ${{ inputs.log_type }}
+branding:
+  color: purple
+  icon: play-circle
