@@ -9,7 +9,7 @@ jobs:
     name: Duong test
     steps:
       - uses: actions/checkout@v3
-      - uses: tranchiduong1/execute-appium-test-github-action@<<version>>
+      - uses: tranchiduong1/execute-appium-test-github-action@v1.0.0
         with:
           kobi_username: ${{ secrets.KOBI_USERNAME }}
           kobi_api_key: ${{ secrets.KOBI_API_KEY }}
