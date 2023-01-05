@@ -1,0 +1,29 @@
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run-test:
+    runs-on: ubuntu-latest
+    name: Duong test
+    steps:
+      - uses: actions/checkout@v3
+      - uses: kobiton/execute-appium-test-github-action@<<version>>
+        with:
+          kobi_username: ${{ secrets.KOBI_USERNAME }}
+          kobi_api_key: ${{ secrets.KOBI_API_KEY }}
+          executor_url: https://executor-demo.kobiton.com
+          executor_username: ${{ secrets.EXECUTOR_USERNAME }} # get this from our support team
+          executor_password: ${{ secrets.EXECUTOR_PASSWORD }} # get this from our support team
+          git_repo_url: https://github.com/sonhmle/azure-devops-sample-java-prod.git
+          git_repo_branch: master
+          git_repo_ssh_key: ${{ secrets.GIT_REPO_SSH_KEY }}
+          app_id: kobiton-store:478808
+          use_custom_device: 'true'
+          device_name: 'Galaxy A20'
+          device_platform_version: '10'
+          device_platform: 'Android'
+          root_directory: '/'
+          command: 'mvn test'
+          wait_for_execution: 'true'
